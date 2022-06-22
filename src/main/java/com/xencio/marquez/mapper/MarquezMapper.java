@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author songyr
@@ -18,4 +19,10 @@ public interface MarquezMapper {
     void insertShardholderAll(@Param("shareholderList") List<ShareholderPojo> shareholderList);
 
     void insertEnterpriseShareholder();
+
+    List<Map<String, String>> selectEnterprise();
+
+    List<Map<String, String>> selectShareholder();
+
+    List<Map<String, String>> selectEnterpriseShareholder();
 }

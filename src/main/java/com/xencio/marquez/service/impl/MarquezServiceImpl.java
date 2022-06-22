@@ -41,6 +41,7 @@ public class MarquezServiceImpl implements MarquezService {
         Map<String, XencioApiPojo> xencioApiData = new HashMap<>();
         Map<String, String> xencioSqlData = new HashMap<>();
         Map<String, String> xencioBigSqlData = new HashMap<>();
+        Map<String, List<Map<String, String>>> xencioTableData = new HashMap<>();
         try {
             // 爬取天眼查数据
             xencioApiData = getXencioApiData();
@@ -48,12 +49,27 @@ public class MarquezServiceImpl implements MarquezService {
             // 存到数据库
             xencioSqlData = insertIntoDataBase(xencioApiData);
 
-            //插入到新表
+            // 插入到新表
             xencioBigSqlData = insertIntoBigDataBase();
+
+            // 表字段
+            xencioTableData = selectTableField();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.success(xencioApiData);
+    }
+
+    private Map<String, List<Map<String, String>>> selectTableField() {
+        List<Map<String, String>> tableEnterpriseField =  marquezMapper.selectEnterprise();
+        List<Map<String, String>> tableShareholderField =  marquezMapper.selectShareholder();
+        List<Map<String, String>> tableEnterpriseShareholderField =  marquezMapper.selectEnterpriseShareholder();
+
+        Map<String, List<Map<String, String>>> result = new HashMap<>();
+        result.put("enterprise",tableEnterpriseField);
+        result.put("shareholder",tableShareholderField);
+        result.put("enterpriseShareholder",tableEnterpriseShareholderField);
+        return result;
     }
 
     private Map<String, String> insertIntoBigDataBase() {
