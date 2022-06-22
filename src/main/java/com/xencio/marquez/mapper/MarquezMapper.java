@@ -16,4 +16,6 @@ public interface MarquezMapper {
     void insertEnterpriseAll(@Param("enterpriseList") List<EnterprisePojo> enterpriseList);
 
     void insertShardholderAll(@Param("shareholderList") List<ShareholderPojo> shareholderList);
+
+    void insertEnterpriseShareholder();
 }

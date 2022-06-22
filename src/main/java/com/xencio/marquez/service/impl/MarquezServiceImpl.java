@@ -40,16 +40,33 @@ public class MarquezServiceImpl implements MarquezService {
     public Result createOneDataset() {
         Map<String, XencioApiPojo> xencioApiData = new HashMap<>();
         Map<String, String> xencioSqlData = new HashMap<>();
+        Map<String, String> xencioBigSqlData = new HashMap<>();
         try {
             // 爬取天眼查数据
             xencioApiData = getXencioApiData();
 
             // 存到数据库
             xencioSqlData = insertIntoDataBase(xencioApiData);
+
+            //插入到新表
+            xencioBigSqlData = insertIntoBigDataBase();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.success(xencioApiData);
+    }
+
+    private Map<String, String> insertIntoBigDataBase() {
+        marquezMapper.insertEnterpriseShareholder();
+        String sql = "INSERT INTO tb_enterprise_shareholder (`enterprise_name`,`shareholder_name`,`shareholder_percent`)\n"
+            + " (\n" + "SELECT\n" + "\tt1.enterprise_name enterprise_name,\n"
+            + "\tt2.shareholder_name shareholder_name,\n" + "\tt2.shareholder_percent shareholder_percent\n"
+            + "FROM tb_enterprise t1\n"
+            + "LEFT JOIN tb_shareholder t2 ON t1.enterprise_name = t2.shareholder_enterprise;\n" + ");";
+
+        Map<String, String> result = new HashMap<>();
+        result.put("enterpriseShareholderInfo",sql);
+        return result;
     }
 
     /**

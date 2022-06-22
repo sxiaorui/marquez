@@ -19,4 +19,16 @@
         </foreach>
         ;
     </insert>
+
+    <insert id="insertEnterpriseShareholder">
+        INSERT INTO tb_enterprise_shareholder (`enterprise_name`,`shareholder_name`,`shareholder_percent`)
+            (
+                SELECT
+                    t1.enterprise_name enterprise_name,
+                    t2.shareholder_name shareholder_name,
+                    t2.shareholder_percent shareholder_percent
+                FROM tb_enterprise t1
+                         LEFT JOIN tb_shareholder t2 ON t1.enterprise_name = t2.shareholder_enterprise
+        );
+    </insert>
 </mapper>
