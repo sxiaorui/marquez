@@ -9,15 +9,11 @@ import lombok.NoArgsConstructor;
  * @date 2022/06/22
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
+@NoArgsConstructor
+public class ShareholderPojo {
     private Long id;
-
-    private String name;
-
-    private Integer age;
-
-    private String phone;
+    private String shareholderName;
+    private String shareholderEnterprise;
+    private Double shareholderPercent;
 }

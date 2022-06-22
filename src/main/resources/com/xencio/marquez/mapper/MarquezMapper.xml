@@ -2,8 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xencio.marquez.mapper.MarquezMapper">
-    <select id="getUserList" resultType="com.xencio.marquez.pojo.User">
-        select *
-        from User
-    </select>
+    <insert id="insertEnterpriseAll" parameterType="com.xencio.marquez.pojo.EnterprisePojo" keyProperty="id" useGeneratedKeys="true">
+        insert into tb_enterprise (`enterprise_name`,`enterprise_location`,`email`)
+        values
+        <foreach collection="enterpriseList" item="enterprise" separator=",">
+            (#{enterprise.enterpriseName},#{enterprise.enterpriseLocation},#{enterprise.email})
+        </foreach>
+        ;
+    </insert>
+
+    <insert id="insertShardholderAll" parameterType="com.xencio.marquez.pojo.ShareholderPojo" keyProperty="id" useGeneratedKeys="true">
+        insert into tb_shareholder (`shareholder_name`,`shareholder_enterprise`,`shareholder_percent`)
+        values
+        <foreach collection="shareholderList" item="shareholder" separator=",">
+            (#{shareholder.shareholderName},#{shareholder.shareholderEnterprise},#{shareholder.shareholderPercent})
+        </foreach>
+        ;
+    </insert>
 </mapper>

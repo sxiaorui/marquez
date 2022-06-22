@@ -1,8 +1,6 @@
 package com.xencio.marquez.service;
 
-import com.xencio.marquez.pojo.User;
-
-import java.util.List;
+import com.xencio.marquez.common.Result;
 
 /**
  * @author songyr
@@ -10,5 +8,11 @@ import java.util.List;
  */
 public interface MarquezService {
 
-    List<User> getUserList();
+    /**
+     * 创建dataset
+     * @param <T>
+     * @return
+     */
+    <T> Result<T> createOneDataset();
+
 }

@@ -1,7 +1,9 @@
 package com.xencio.marquez.mapper;
 
-import com.xencio.marquez.pojo.User;
+import com.xencio.marquez.pojo.EnterprisePojo;
+import com.xencio.marquez.pojo.ShareholderPojo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
  */
 @Mapper
 public interface MarquezMapper {
+    void insertEnterpriseAll(@Param("enterpriseList") List<EnterprisePojo> enterpriseList);
 
-    List<User> getUserList();
+    void insertShardholderAll(@Param("shareholderList") List<ShareholderPojo> shareholderList);
 }
