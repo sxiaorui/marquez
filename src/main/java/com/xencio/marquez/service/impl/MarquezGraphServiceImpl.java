@@ -114,11 +114,6 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         facets1.setSchema(schema1);
         output1.setFacets(facets1);
 
-        DataSource dataSource = new DataSource();
-        dataSource.setName("crawlab_xencio");
-        dataSource.setUri("jdbc:mysql://8.142.8.135:3306");
-        facets1.setDataSource(dataSource);
-
         outputs.add(output1);
 
         lineageDto.setOutputs(outputs);
@@ -152,11 +147,6 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         facets1.setSchema(schema1);
         input1.setFacets(facets1);
 
-        DataSource dataSource = new DataSource();
-        dataSource.setName("crawlab_xencio");
-        dataSource.setUri("jdbc:mysql://8.142.8.135:3306");
-        facets1.setDataSource(dataSource);
-
         inputs.add(input1);
 
         // enterpriseInfo
@@ -181,8 +171,6 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         Facets facets = new Facets();
         facets.setSchema(schema);
         input2.setFacets(facets);
-
-        facets.setDataSource(dataSource);
 
         inputs.add(input2);
 

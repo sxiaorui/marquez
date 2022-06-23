@@ -59,7 +59,7 @@ public class MarquezServiceImpl implements MarquezService {
             // step1 step2
             marquezGraphService.stepFirst("START",xencioApiData,xencioSqlData,xencioTableData);
             marquezGraphService.stepSecond("START",xencioApiData,xencioSqlData,xencioTableData);
-            Thread.sleep(120000);
+//            Thread.sleep(120000);
             marquezGraphService.stepFirst("COMPLETE",xencioApiData,xencioSqlData,xencioTableData);
             marquezGraphService.stepSecond("COMPLETE",xencioApiData,xencioSqlData,xencioTableData);
 
@@ -68,7 +68,7 @@ public class MarquezServiceImpl implements MarquezService {
 
             //setp3
             marquezGraphService.stepThird("START",xencioApiData,xencioSqlData,xencioBigSqlData,xencioTableData);
-            Thread.sleep(120000);
+//            Thread.sleep(120000);
             marquezGraphService.stepThird("COMPLETE",xencioApiData,xencioSqlData,xencioBigSqlData,xencioTableData);
 
             // 画图
