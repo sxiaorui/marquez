@@ -47,29 +47,38 @@ public class MarquezServiceImpl implements MarquezService {
         Map<String, String> xencioBigSqlData = new HashMap<>();
         Map<String, List<Map<String, String>>> xencioTableData = new HashMap<>();
         try {
+            // 表字段
+            xencioTableData = selectTableField();
+
             // 爬取天眼查数据
             xencioApiData = getXencioApiData();
 
             // 存到数据库
             xencioSqlData = insertIntoDataBase(xencioApiData);
 
+            // step1 step2
+            marquezGraphService.stepFirst("START",xencioApiData,xencioSqlData,xencioTableData);
+            marquezGraphService.stepSecond("START",xencioApiData,xencioSqlData,xencioTableData);
+            Thread.sleep(120000);
+            marquezGraphService.stepFirst("COMPLETE",xencioApiData,xencioSqlData,xencioTableData);
+            marquezGraphService.stepSecond("COMPLETE",xencioApiData,xencioSqlData,xencioTableData);
+
             // 插入到新表
             xencioBigSqlData = insertIntoBigDataBase();
 
-            // 表字段
-            xencioTableData = selectTableField();
+            //setp3
+            marquezGraphService.stepThird("START",xencioApiData,xencioSqlData,xencioBigSqlData,xencioTableData);
+            Thread.sleep(120000);
+            marquezGraphService.stepThird("COMPLETE",xencioApiData,xencioSqlData,xencioBigSqlData,xencioTableData);
 
             // 画图
-            marquezGraphService.getGraph(xencioApiData,xencioSqlData,xencioBigSqlData,xencioTableData);
+//            marquezGraphService.getGraph(xencioApiData,xencioSqlData,xencioBigSqlData,xencioTableData);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.success(xencioApiData);
     }
 
-    private void getGraph(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData, Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData) {
-
-    }
 
     private Map<String, List<Map<String, String>>> selectTableField() {
         List<Map<String, String>> tableEnterpriseField =  marquezMapper.selectEnterprise();

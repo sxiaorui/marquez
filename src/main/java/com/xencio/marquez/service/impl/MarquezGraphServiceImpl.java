@@ -36,16 +36,17 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
     @Override
     public void getGraph(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
             Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData) throws Exception {
-        stepFirst(xencioApiData, xencioSqlData, xencioBigSqlData, xencioTableData);
-        stepSecond(xencioApiData, xencioSqlData, xencioBigSqlData, xencioTableData);
-        stepThird(xencioApiData, xencioSqlData, xencioBigSqlData, xencioTableData);
+        stepFirst("COMPLETE",xencioApiData, xencioSqlData, xencioTableData);
+        stepSecond("COMPLETE",xencioApiData, xencioSqlData, xencioTableData);
+        stepThird("COMPLETE",xencioApiData, xencioSqlData, xencioBigSqlData, xencioTableData);
     }
 
-    private void stepThird(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
+    @Override
+    public void stepThird(String eventType,Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
         Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData)
         throws IOException {
         // 封装json
-        LineageDto lineageDto = getJson3(xencioApiData, xencioSqlData, xencioBigSqlData, xencioTableData);
+        LineageDto lineageDto = getJson3(eventType,xencioApiData, xencioSqlData, xencioBigSqlData, xencioTableData);
         HttpClient httpClient = XencioHttpUtil.createClient();
 
         HttpPost httpPost = new HttpPost("http://39.99.225.122:3000/api/v1/lineage");
@@ -58,10 +59,10 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         System.out.println(s);
     }
 
-    private LineageDto getJson3(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
+    private LineageDto getJson3(String eventType, Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
         Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData) {
         LineageDto lineageDto = new LineageDto();
-        lineageDto.setEventType("COMPLETE");
+        lineageDto.setEventType(eventType);
         lineageDto.setEventTime(new Date());
 
         // run
@@ -69,8 +70,8 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
 
         // job
         Job job = new Job();
-        job.setName("songyr_test33");
-        job.setNamespace("songyr_test3");
+        job.setName("songyr_test43");
+        job.setNamespace("songyr_test4");
         lineageDto.setJob(job);
 
         // input output
@@ -94,7 +95,7 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         String sql = xencioBigSqlData.get("enterpriseShareholderInfo");
         List<Map<String, String>> tbEnterpriseShareholderFields = xencioTableData.get("enterpriseShareholder");
         Output output1 = new Output();
-        output1.setNamespace("songyr_test3");
+        output1.setNamespace("songyr_test4");
         output1.setName("tb_enterprise_shareholder");
 
         List<Field> fields1 = new ArrayList<>();
@@ -127,7 +128,7 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         String sql2 = xencioSqlData.get("shareholdersInfo");
         List<Map<String, String>> tbShareholderFields = xencioTableData.get("shareholder");
         Input input1 = new Input();
-        input1.setNamespace("songyr_test3");
+        input1.setNamespace("songyr_test4");
         input1.setName("tb_shareholder");
 
         List<Field> fields1 = new ArrayList<>();
@@ -152,7 +153,7 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         String sql1 = xencioSqlData.get("enterpriseInfo");
         List<Map<String, String>> tbEnterpriseFields = xencioTableData.get("enterprise");
         Input input2 = new Input();
-        input2.setNamespace("songyr_test3");
+        input2.setNamespace("songyr_test4");
         input2.setName("tb_enterprise");
 
         List<Field> fields = new ArrayList<>();
@@ -176,11 +177,11 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         lineageDto.setInputs(inputs);
     }
 
-    private void stepSecond(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
-        Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData)
+    @Override
+    public void stepSecond(String eventType,Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData, Map<String, List<Map<String, String>>> xencioTableData)
         throws IOException {
         // 封装json
-        LineageDto lineageDto = getJson2(xencioApiData, xencioSqlData, xencioBigSqlData, xencioTableData);
+        LineageDto lineageDto = getJson2(eventType,xencioApiData, xencioSqlData, xencioTableData);
 
         HttpClient httpClient = XencioHttpUtil.createClient();
 
@@ -194,10 +195,9 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         System.out.println(s);
     }
 
-    private LineageDto getJson2(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
-        Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData) {
+    private LineageDto getJson2(String eventType, Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData, Map<String, List<Map<String, String>>> xencioTableData) {
         LineageDto lineageDto = new LineageDto();
-        lineageDto.setEventType("COMPLETE");
+        lineageDto.setEventType(eventType);
         lineageDto.setEventTime(new Date());
 
         // run
@@ -205,8 +205,8 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
 
         // job
         Job job = new Job();
-        job.setName("songyr_test32");
-        job.setNamespace("songyr_test3");
+        job.setName("songyr_test42");
+        job.setNamespace("songyr_test4");
         lineageDto.setJob(job);
 
         // input output
@@ -230,7 +230,7 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         String sql2 = xencioSqlData.get("shareholdersInfo");
         List<Map<String, String>> tbShareholderFields = xencioTableData.get("shareholder");
         Output output1 = new Output();
-        output1.setNamespace("songyr_test3");
+        output1.setNamespace("songyr_test4");
         output1.setName("tb_shareholder");
 
         List<Field> fields1 = new ArrayList<>();
@@ -262,16 +262,16 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         String uri2 = shareholdersInfo.getUri();
         Input input2 = new Input();
         input2.setName(uri2);
-        input2.setNamespace("songyr_test3");
+        input2.setNamespace("songyr_test4");
         inputs.add(input2);
         lineageDto.setInputs(inputs);
     }
 
-    private void stepFirst(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
-        Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData)
+    @Override
+    public void stepFirst(String eventType, Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData, Map<String, List<Map<String, String>>> xencioTableData)
         throws IOException {
         // 封装json
-        LineageDto lineageDto = getJson1(xencioApiData, xencioSqlData, xencioBigSqlData, xencioTableData);
+        LineageDto lineageDto = getJson1(eventType,xencioApiData, xencioSqlData, xencioTableData);
 
         HttpClient httpClient = XencioHttpUtil.createClient();
 
@@ -285,10 +285,9 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         System.out.println(s);
     }
 
-    private LineageDto getJson1(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData,
-        Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData) {
+    private LineageDto getJson1(String eventType, Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData, Map<String, List<Map<String, String>>> xencioTableData) {
         LineageDto lineageDto = new LineageDto();
-        lineageDto.setEventType("COMPLETE");
+        lineageDto.setEventType(eventType);
         lineageDto.setEventTime(new Date());
 
         // run
@@ -296,8 +295,8 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
 
         // job
         Job job = new Job();
-        job.setName("songyr_test31");
-        job.setNamespace("songyr_test3");
+        job.setName("songyr_test41");
+        job.setNamespace("songyr_test4");
         lineageDto.setJob(job);
 
         // input output
@@ -321,7 +320,7 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         String sql1 = xencioSqlData.get("enterpriseInfo");
         List<Map<String, String>> tbEnterpriseFields = xencioTableData.get("enterprise");
         Output output = new Output();
-        output.setNamespace("songyr_test3");
+        output.setNamespace("songyr_test4");
         output.setName("tb_enterprise");
 
         List<Field> fields = new ArrayList<>();
@@ -354,7 +353,7 @@ public class MarquezGraphServiceImpl implements MarquezGraphService {
         String uri1 = enterpriseInfo.getUri();
         Input input1 = new Input();
         input1.setName(uri1);
-        input1.setNamespace("songyr_test3");
+        input1.setNamespace("songyr_test4");
         inputs.add(input1);
         
         lineageDto.setInputs(inputs);
