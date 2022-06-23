@@ -5,7 +5,7 @@ spring:
   application:
     name: spring-batch
   datasource:
-    url: jdbc:mysql://8.142.8.135:3306/crawlab_xencio?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://192.168.0.13:3306/crawlab_xencio?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     username: c4c_watson_w
     password: Watson@2021@#%
     driver-class-name: com.mysql.cj.jdbc.Driver
