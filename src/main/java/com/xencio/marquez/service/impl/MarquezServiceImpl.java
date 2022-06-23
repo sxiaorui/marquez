@@ -10,6 +10,7 @@ import com.xencio.marquez.mapper.MarquezMapper;
 import com.xencio.marquez.pojo.EnterprisePojo;
 import com.xencio.marquez.pojo.ShareholderPojo;
 import com.xencio.marquez.pojo.XencioApiPojo;
+import com.xencio.marquez.service.MarquezGraphService;
 import com.xencio.marquez.service.MarquezService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -36,6 +37,9 @@ public class MarquezServiceImpl implements MarquezService {
     @Autowired
     private MarquezMapper marquezMapper;
 
+    @Autowired
+    private MarquezGraphService marquezGraphService;
+
     @Override
     public Result createOneDataset() {
         Map<String, XencioApiPojo> xencioApiData = new HashMap<>();
@@ -54,10 +58,17 @@ public class MarquezServiceImpl implements MarquezService {
 
             // 表字段
             xencioTableData = selectTableField();
+
+            // 画图
+            marquezGraphService.getGraph(xencioApiData,xencioSqlData,xencioBigSqlData,xencioTableData);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.success(xencioApiData);
+    }
+
+    private void getGraph(Map<String, XencioApiPojo> xencioApiData, Map<String, String> xencioSqlData, Map<String, String> xencioBigSqlData, Map<String, List<Map<String, String>>> xencioTableData) {
+
     }
 
     private Map<String, List<Map<String, String>>> selectTableField() {
